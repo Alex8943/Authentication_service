@@ -1,56 +1,44 @@
-import express from "express";
-import passport from "passport";
-import session from "express-session";
-import "./auth.js";
-
-
+const express = require('express');
+const passport = require("passport");
+const session = require("express-session");
+require("./auth.js");
 const app = express();
 
-app.use(session({secret: "cats", resave: false, saveUninitialized: true}));
-app.use(passport.initialize());
-app.use(passport.session());
+//I want to use ejs as my view engine
 
 
 
-function isLoggedIn(req, res, next) {
-    req.user ? next() : res.sendStatus(401);
-    
-}
+app.set("view engine", "ejs");
 
-
-app.get("/", (req, res) => {
-    res.render('index.ejs')
+app.get("/auth", isNotLoggedIn, (req, res, ) => {
+    res.render("index.ejs" );
 });
 
-app.get("/auth/google",passport.authenticate('google', {scope: ['email', 'profile'] })
-); 
-
-
-app.get("/google/callback",
-    passport.authenticate('google', {
-        successRedirect: '/protected', 
-        failureRedirect: '/auth/google/failure' 
-    })
+app.get("/auth/google", 
+    passport.authenticate("google", {scope: ["profile", "email"]})
 );
 
-app.get("/auth/google/failure", (req, res) => {
-    res.send("Failed to authenticate")
-});
+app.get("/auth/google/callback",
+    passport.authenticate("google", {
+        failureRedirect: "/auth/failure", 
+        successRedirect: "http://localhost:3000/" 
+}));
 
-app.get("/protected", isLoggedIn, (req, res) => {
-    res.render("login.ejs", {user: req.user})
-});
 
-app.get("/logoutNow", (req, res) => {
-    res.render("login.ejs")
-});
 
-app.get('/logout', function(req, res){
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
-    });
-});
+app.get("/auth/failure", isNotLoggedIn, (req, res) => {
+    res.send("Something went wrong");
 
-const port = 3000;
+}); 
+
+
+function isLoggedIn (req, res, next) {
+    if(req.user ? next() : res.sendStatus(401));
+}
+
+function isNotLoggedIn (req, res, next) {
+    if(!req.user ? next() : res.sendStatus(401));
+}
+
+const port = 8080;
 app.listen(port, () => {console.log("Server is now running on port " + port)});

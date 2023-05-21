@@ -1,11 +1,16 @@
-import passport from 'passport';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20'; 
+if(process.env !== 'production'){
+    require('dotenv').config();
+};
+    
+const passport = require("passport");
+const GoogleStrategy = require('passport-google-oauth20'); 
 
 
-const GOOGLE_CLIENT_ID = "645825230516-mae2g5qhkn9t1kqsv2d828l8h9qg55lc.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+GOOGLE_CLIENT_ID = "645825230516-v3kng7sj0kr1cqhusa8f6hlsup86t071.apps.googleusercontent.com";
+GOOGLE_CLIENT_SECRET = "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";
 
 passport.use(new GoogleStrategy({
+
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/google/callback", 
