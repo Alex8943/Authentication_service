@@ -1,12 +1,11 @@
 const express = require('express');
 const passport = require("passport");
+const sequelize = require('./database/db.js');
 const session = require("express-session");
 require("./auth.js");
 const app = express();
 
 //I want to use ejs as my view engine
-
-
 
 app.set("view engine", "ejs");
 
@@ -25,7 +24,6 @@ app.get("/auth/google/callback",
 }));
 
 
-
 app.get("/auth/failure", isNotLoggedIn, (req, res) => {
     res.send("Something went wrong");
 
@@ -41,4 +39,15 @@ function isNotLoggedIn (req, res, next) {
 }
 
 const port = 8080;
-app.listen(port, () => {console.log("Server is now running on port " + port)});
+
+sequelize.sync()
+  .then(() => {
+    console.log('Database synced!');
+    // Start your server here
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Unable to sync the database:', err);
+  });
