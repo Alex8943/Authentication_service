@@ -11,3 +11,5 @@ Open a terminal and run:
 DB_USERNAME=<username>
 DB_PASSWORD=<password>
 DB_PORT=<port>
+GOOGLE_CLIENT_ID=<google_client_id>
+GOOGLE_CLIENT_SECRET=<google_client_secret>

@@ -17,7 +17,7 @@ app.get("/auth/google",
     passport.authenticate("google", {scope: ["profile", "email"]})
 );
 
-app.get("/auth/google/callback",
+app.get("/google/callback",
     passport.authenticate("google", {
         failureRedirect: "/auth/failure", 
         successRedirect: "http://localhost:3000/" 

@@ -1,4 +1,5 @@
 const User = require('./database/user.js');
+require('dotenv').config();
 
 if(process.env !== 'production'){
     require('dotenv').config();
@@ -7,15 +8,11 @@ if(process.env !== 'production'){
 const passport = require("passport");
 const GoogleStrategy = require('passport-google-oauth20'); 
 
-
-GOOGLE_CLIENT_ID = "xxxxxx";
-GOOGLE_CLIENT_SECRET = "xxxxx"
-
 passport.use(new GoogleStrategy({
 
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/google/callback", 
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:8080/google/callback", 
     passReqToCallback: true
 }, function(accessToken, refreshToken, profile, done) {
     // Try to find the user in our database
