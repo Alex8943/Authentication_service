@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
 
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/google/callback", 
+    callbackURL: "http://auth-clusterip-srv/google/callback", 
     passReqToCallback: true
 }, function(accessToken, refreshToken, profile, done) {
     // Try to find the user in our database

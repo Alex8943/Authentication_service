@@ -20,7 +20,7 @@ app.get("/auth/google",
 app.get("/google/callback",
     passport.authenticate("google", {
         failureRedirect: "/auth/failure", 
-        successRedirect: "http://localhost:3000/" 
+        successRedirect: "http://20.124.44.180/" 
 }));
 
 
@@ -38,7 +38,7 @@ function isNotLoggedIn (req, res, next) {
     if(!req.user ? next() : res.sendStatus(401));
 }
 
-const port = 8080;
+const port = 80;
 
 sequelize.sync()
   .then(() => {
